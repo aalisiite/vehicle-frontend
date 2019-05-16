@@ -18,36 +18,35 @@ import history from './history'
 import Row from 'reactstrap/es/Row'
 
 class CreateVehicle extends Component {
-    state = {
-        company: "",
-        bicycleName: "",
-        carName: "",
-        selectedType: "CAR"
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            dropdownOpen: false,
+            type: "Vehicle",
+            company: "",
+            model: ""
+
+        };
     }
+
     onCompanyUpdate = company => {
         this.setState({company: company})
     }
-    onBicycleNameUpdate = bicycle => {
+
+    onModelUpdate = bicycle => {
         this.setState({bicycleName: bicycle})
-    }
-    onCarNameUpdate = car => {
-        this.setState({carName: car})
-    }
-    changeSelectedType = (event) => {
-       this.setState({
-           dropdownOpen: !this.state.dropdownOpen,
-           value: event.target.innerText
-       })
     }
 
     onSubmit = () => {
-        const {company, bicycleName, carName} = this.state
+        const {company, type, model} = this.state
         axios.post(
-            `http://localhost:3001/api/create-vehicle`,
+            `/api/create-vehicle`,
             {
-                company,
-                bicycleName,
-                carName
+                company: company,
+                type: type,
+                model: model
+
             }
         ).then(res => {
                 console.log(res)
@@ -56,27 +55,26 @@ class CreateVehicle extends Component {
             }
         )
     }
+
     goTo = (link) => {
         history.push(link)
     }
 
-    constructor(props) {
-        super(props);
-
-        this.toggle = this.toggle.bind(this);
-        this.state = {
-            dropdownOpen: false
-        };
-    }
-
-    toggle() {
+    toggle = () => {
         this.setState({
             dropdownOpen: !this.state.dropdownOpen
         });
     }
 
+    select = (event) => {
+        this.setState({
+            dropdownOpen: !this.state.dropdownOpen,
+            type: event.target.innerText
+        });
+    }
+
     render() {
-        const {isLoading} = this.state
+        const {isLoading, type, dropdownOpen} = this.state
         return (
             <Container className={CreateVehicle}>
                 <h2>Create Vehicle</h2>
@@ -90,36 +88,22 @@ class CreateVehicle extends Component {
                             onChange={e => this.onCompanyUpdate(e.target.value)}
                         />
                     </FormGroup>
-                    <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-                        <DropdownToggle caret>
-                            Vehicles
-                        </DropdownToggle>
+                    <ButtonDropdown isOpen={dropdownOpen} toggle={this.toggle}>
+                        <DropdownToggle>{type}</DropdownToggle>
                         <DropdownMenu>
-                            <DropdownItem onClick={this.changeSelectedType}>
-                                BICYCLE
-                            </DropdownItem>
-                            <DropdownItem>
-                                <div onClick={this.changeSelectedType}>CAR</div>
-                            </DropdownItem>
+                            <DropdownItem onClick={this.select}>bicycle</DropdownItem>
+                            <DropdownItem onClick={this.select}>car</DropdownItem>
                         </DropdownMenu>
                     </ButtonDropdown>
-                    {this.changeSelectedType === "BICYCLE" ? <FormGroup>
+                    <FormGroup>
+                        <Label>Model</Label>
                         <Input
                             type="text"
-                            name="bicycleModel"
-                            id="bicycleModel"
-                            onChange={e => this.onBicycleNameUpdate(e.target.value)}
+                            name="model"
+                            id="model"
+                            onChange={e => this.onModelUpdate(e.target.value)}
                         />
-                    </FormGroup> : false}
-                    {this.changeSelectedType() === 'CAR' ? <FormGroup>
-                        <Label>Car model</Label>
-                        <Input
-                            type="text"
-                            name="carModel"
-                            id="carModel"
-                            onChange={e => this.onCarNameUpdate(e.target.value)}
-                        />
-                    </FormGroup> : false}
+                    </FormGroup>
                     <Row>
                         <Col>
                             <Button color="primary" onClick={this.onSubmit}>
@@ -135,7 +119,6 @@ class CreateVehicle extends Component {
             </Container>
         )
     }
-
 }
 
 export default CreateVehicle;
