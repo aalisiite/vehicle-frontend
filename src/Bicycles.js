@@ -17,12 +17,13 @@ class Bicycles extends Component {
     }
 
     render() {
+        console.log(this.state.bicycles)
         return (
             <Container>
                 <h1>Bicycles</h1>
                 <ListGroup>
                     {this.state.bicycles.map(bicycle =>
-                        <ListGroupItem>{bicycle.company}{bicycle.model}</ListGroupItem>)}
+                        <ListGroupItem key={bicycle.id}>{bicycle.company} {bicycle.model}</ListGroupItem>)}
                 </ListGroup>
             </Container>
         )

@@ -22,7 +22,7 @@ class Cars extends Component {
                 <h1>Cars</h1>
                 <ListGroup>
                     {this.state.cars.map(car =>
-                        <ListGroupItem>{car.company}{car.model}</ListGroupItem>)}
+                        <ListGroupItem>{car.company} {car.model}</ListGroupItem>)}
                 </ListGroup>
             </Container>
         )

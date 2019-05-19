@@ -91,8 +91,8 @@ class CreateVehicle extends Component {
                     <ButtonDropdown isOpen={dropdownOpen} toggle={this.toggle}>
                         <DropdownToggle>{type}</DropdownToggle>
                         <DropdownMenu>
-                            <DropdownItem onClick={this.select}>bicycle</DropdownItem>
-                            <DropdownItem onClick={this.select}>car</DropdownItem>
+                            <DropdownItem onClick={this.select}> bicycle </DropdownItem>
+                            <DropdownItem onClick={this.select}> car </DropdownItem>
                         </DropdownMenu>
                     </ButtonDropdown>
                     <FormGroup>
