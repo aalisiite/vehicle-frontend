@@ -34,8 +34,8 @@ class CreateVehicle extends Component {
         this.setState({company: company})
     }
 
-    onModelUpdate = bicycle => {
-        this.setState({bicycleName: bicycle})
+    onModelUpdate = model => {
+        this.setState({model: model})
     }
 
     onSubmit = () => {
@@ -51,7 +51,7 @@ class CreateVehicle extends Component {
         ).then(res => {
                 console.log(res)
                 this.setState({isLoading: false})
-                this.goTo("/vehicle")
+                this.goTo("/vehicles")
             }
         )
     }
